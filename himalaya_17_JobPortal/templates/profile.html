@@ -1,0 +1,32 @@
+{% extends 'master.html' %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="card col-lg-12">
+        <div class="card-body">
+            <div class="text-center">
+                <h3 class="card-title"><strong>Profile Information</strong></h3>
+            </div>
+            <div class="profil_img text-center">
+               
+                <h4 class="mt-2 mb-2"><strong>{{user.DisplayName}}</strong></h4>
+            </div>
+
+            <div class="profile_btn text-center">
+                <a href="{% url 'editprofile' %}" >Edit Profile</a>
+            </div>
+
+            {% block profileinfo %}
+
+            {% endblock profileinfo %}
+
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,16 @@
+<div class="topnav">
+    <div class="nav-links">
+        
+        {% if user.UserType == 'Recruiters' %}
+        <a href="{% url 'addjob' %}">Add Job</a>
+        {% else %}
+        <a href="{% url 'appliedjob' %}">Applied Job</a>
+            
+    {% endif %}
+        
+        <a href="{% url 'browsejob' %}">Browse Job</a>
+        <a href="{% url 'profile' %}">Profile</a>
+        <a href="{% url 'logoutpage' %}">Logout</a>
+    </div>
+    
+</div>

@@ -1,0 +1,181 @@
+{% extends 'master.html' %}
+
+{% block content %}
+
+<style>
+ 
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .job-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        /* Adjusted width to fit three cards in a row */
+
+        margin: 10px;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-bottom: 10px;
+    }
+
+    .job-header {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: #fff;
+        background-color: #04AA6D;
+        padding: 10px;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .job-content {
+        flex-grow: 1;
+        padding: 0px 20px;
+    }
+
+    .job-content img {
+        width: 100px;
+        height: auto;
+    }
+
+    .job-title {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .company-name {
+        font-size: 1.2em;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #666;
+    }
+
+    .address,
+    .salary,
+    .deadline,
+    .posted,
+    .experience,
+    .description {
+        font-size: 0.9em;
+        margin-bottom: 5px;
+        color: #888;
+    }
+
+    .deadline {
+        font-size: 0.9em;
+        font-weight: bold;
+        color: #e74c3c;
+    }
+
+    .job-footer {
+        display: flex;
+
+        padding: 20px;
+    }
+
+    .button {
+        background-color: #04AA6D;
+        /* Green */
+        border: none;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .button2 {
+        background-color: #008CBA;
+    }
+
+    /* Blue */
+    .button3 {
+        background-color: #f44336;
+    }
+
+    /* Red */
+    .button4 {
+        background-color: #e7e7e7;
+        color: black;
+    }
+
+    /* Gray */
+    .button5 {
+        background-color: #555555;
+    }
+
+    /* Black */
+</style>
+
+<div class="container">
+
+<div class="col-lg-12">
+    {% for job in job_filtered %}
+
+    <div class="job-card">
+        <div class="job-header">
+            {{ job.Title }}
+        </div>
+        <div class="job-content">
+            <img src="{{ job.Created_By.recruitermodel.CompanyLogo.url }}" alt="">
+            <h3 class="company-name">{{ job.Created_By.recruitermodel.CompanyName}}</h3>
+            <p class="description">{{ job.Job_Description}}</p>
+            <p class="address"><strong>Address:</strong> {{job.Created_By.recruitermodel.CompanyAddress}}</p>
+
+            <p class="salary"><strong>Number of Openings:</strong> {{ job.Number_Of_Openings }}</p>
+            <p class="experience"><strong>Qualification:</strong> {{ job.Skills_Set }}</p>
+        </div>
+
+        
+        {% if user.UserType == 'Recruiters' %}
+        <div class="job-footer">
+            <a href="{% url 'editjob' job.id %}" class="button">Edit</a>
+            <a href="{% url 'deletejob' job.id %}" class="button button3">Delete</a>
+        {% else %}
+        <a href="" class="button button2">Apply Job</a>
+        </div>
+            
+        {% endif %}
+            
+
+
+        {% if user.is_authenticated %}
+        <div class="job-footer">
+            {% if user.UserType == 'JobSeeker' %}
+            {% if i.applied %}
+            <a href="{% url 'applyjob' job.id %}" class="button button3">Already Applied</a>
+
+            {% else %}
+            <a href="{% url 'applyjob' job.id %}" class="button button2">Apply Job</a>
+
+            {% endif %}
+            {% endif %}
+        </div>
+
+        {% endif %}
+
+
+
+
+    </div>
+
+    {% endfor %}
+</div>
+
+
+</div>
+{% endblock content %}
